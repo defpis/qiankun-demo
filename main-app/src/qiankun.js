@@ -1,4 +1,5 @@
 import { registerMicroApps, start, initGlobalState } from "qiankun";
+import * as shared from "./shared";
 
 registerMicroApps([
   {
@@ -6,6 +7,7 @@ registerMicroApps([
     entry: "//localhost:3001",
     container: "#first-feature-app",
     activeRule: "/first-feature-app",
+    props: { shared },
   },
 ]);
 

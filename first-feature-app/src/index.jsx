@@ -1,10 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import rootContext from "./context";
+import rootReducer from "./reducers";
+import * as alternateShared from "./alternateShared";
 
-const render = (props) => {
+export const rootStore = createStore(rootReducer);
+
+const render = ({ shared = alternateShared, ...restProps }) => {
   ReactDOM.render(
-    <App {...props} />,
+    <Provider context={rootContext} store={rootStore}>
+      <App {...restProps} shared={shared} />
+    </Provider>,
     document.getElementById("first-feature-app-root")
   );
 };
@@ -46,5 +55,5 @@ export async function update(props) {
 
 // 直接启动
 if (!window.__POWERED_BY_QIANKUN__) {
-  render();
+  render({});
 }

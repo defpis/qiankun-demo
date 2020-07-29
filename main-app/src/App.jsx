@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Router from "./router";
-import { actions } from "./qiankun";
+import { useSelector, useDispatch } from "./hooks";
 
 const App = () => {
-  const [count, setCount] = useState(0);
-
-  const increase = () => {
-    actions.setGlobalState({
-      count: count + 1,
-    });
-  };
-
-  useEffect(() => {
-    actions.onGlobalStateChange((current) => setCount(current.count || 0));
-    return () => actions.offGlobalStateChange();
-  }, []);
+  const counter = useSelector((state) => state.counter);
+  const dispatch = useDispatch();
 
   return (
     <>
       <p>Main App</p>
-      <p>Count: {count}</p>
-      <button onClick={increase}>increase in main app</button>
+      <p>Count: {counter}</p>
+      <button onClick={() => dispatch({ type: "INCREASE" })}>
+        increase in main app
+      </button>
+      <button onClick={() => dispatch({ type: "DECREASE" })}>
+        decrease in main app
+      </button>
       <Router />
     </>
   );
